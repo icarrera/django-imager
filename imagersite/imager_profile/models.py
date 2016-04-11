@@ -22,6 +22,8 @@ class ImagerProfile(models.Model):
     camera_model = models.CharField(max_length=255)
     location = models.Charfield(max_lenght=255)
     photography_type = models.CharField(max_length=255)
+    friends = models.ManytoManyField(settings.AUTH_USER_MODEL,
+                                     related_name='friend_of')
     active = ActiveUserManager()
 
     def __str__(self):
@@ -30,5 +32,5 @@ class ImagerProfile(models.Model):
 
     @property
     def is_active(self):
-        """Return state of a user's profile."""
+        """Return a boolean value indicating if the profile's user is active."""
         return self.user.is_active
