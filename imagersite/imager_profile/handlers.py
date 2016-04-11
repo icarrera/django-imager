@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""Signal handlers registered by imager_profile app."""
 from __future__ import unicode_literals
 from django.conf import settings
 from django.db.models.signals import post_save
@@ -29,3 +30,4 @@ def remove_imager_profile(sender, **kwargs):
         msg = (
             'ImagerProfile instance not deleted for {}.'
         )
+        logger.warn(msg.format(kwargs['instance']))
