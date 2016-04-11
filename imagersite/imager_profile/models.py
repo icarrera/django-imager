@@ -15,14 +15,14 @@ class ActiveUserManager(models.Manager):
 class ImagerProfile(models.Model):
     """Profile attached to user model."""
 
-    user = models.OnetoOneField(settings.AUTH_USER_MODEL,
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 related_name="profile",
                                 on_delete=models.CASCADE,
                                 )
     camera_model = models.CharField(max_length=255)
-    location = models.Charfield(max_lenght=255)
+    location = models.CharField(max_length=255)
     photography_type = models.CharField(max_length=255)
-    friends = models.ManytoManyField(settings.AUTH_USER_MODEL,
+    friends = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                      related_name='friend_of')
     active = ActiveUserManager()
 
