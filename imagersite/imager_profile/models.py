@@ -9,7 +9,7 @@ class ActiveUserManager(models.Manager):
     def get_queryset(self):
         """Return query set of profiles with active users."""
         queryset = super(ActiveUserManager, self).get_queryset()
-        return queryset.filter(user__is_active=True)
+        return queryset.filter(user__is_active__=True)
 
 
 class ImagerProfile(models.Model):
