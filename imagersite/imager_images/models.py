@@ -15,14 +15,15 @@ PRIVACY_SETTINGS = [
 class Photo(models.Model):
     """Individual picture uploaded by a user."""
 
-    owner = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         null=False,
+        default=None,
     )
-    photos = models.ManyToManyField(Album, related_name='photos')
+    photos = models.ManyToManyField('Album', related_name='photos')
     image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -41,18 +42,20 @@ class Photo(models.Model):
 class Album(models.Model):
     """Photo Album and meta-data about the photos."""
 
-    owner = models.ForeignKey(
+    user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='albums',
         null=False,
+        default=None,
     )
     cover = models.ForeignKey(
         Photo,
         related_name='cover_photo',
         blank=True,
+        default=None,
     )
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
