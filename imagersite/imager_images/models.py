@@ -52,7 +52,7 @@ class Album(models.Model):
         related_name='cover_photo',
         blank=True,
     )
-    title = models.CharFireld(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
