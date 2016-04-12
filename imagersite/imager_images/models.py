@@ -18,7 +18,7 @@ class Photo(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        null=False
+        null=False,
     )
     photos = models.ManyToManyField(Album, related_name='photos')
     image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
@@ -30,7 +30,7 @@ class Photo(models.Model):
     published = models.CharField(
         max_length=255,
         choices=PRIVACY_SETTINGS,
-        default='private'
+        default='private',
     )
 
     def __str__(self):
@@ -45,12 +45,12 @@ class Album(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='albums',
-        null=False
+        null=False,
     )
     cover = models.ForeignKey(
         Photo,
         related_name='cover_photo',
-        blank=True
+        blank=True,
     )
     title = models.CharFireld(max_length=255)
     description = models.TextField(blank=True)
@@ -60,7 +60,7 @@ class Album(models.Model):
     published = models.CharField(
         max_length=255,
         choices=PRIVACY_SETTINGS,
-        default='private'
+        default='private',
     )
 
 

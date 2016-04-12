@@ -5,9 +5,9 @@ from django.conf import settings
 from django.utils.encoding import python_2_unicode_compatible
 
 PHOTO_CATEGORY = [
-    ('portrait', 'Portrait'),
-    ('nature', 'Nature'),
-    ('sports', 'Sports'),
+    ('portrait', 'Portrait Photography'),
+    ('nature', 'Nature Photography'),
+    ('sports', 'Sports Photography'),
 ]
 
 US_REGIONS = [
@@ -37,17 +37,22 @@ class ActiveUserManager(models.Manager):
 class ImagerProfile(models.Model):
     """Profile attached to user model."""
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                related_name="profile",
-                                on_delete=models.CASCADE,
-                                )
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        related_name="profile",
+        on_delete=models.CASCADE,
+    )
     camera_model = models.CharField(max_length=255)
     location = models.CharField(max_length=3,
                                 choices=US_REGIONS)
-    photography_type = models.CharField(max_length=255,
-                                        choices=PHOTO_CATEGORY)
-    friends = models.ManyToManyField(settings.AUTH_USER_MODEL,
-                                     related_name='friend_of')
+    photography_type = models.CharField(
+        max_length=255,
+        choices=PHOTO_CATEGORY,
+    )
+    friends = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='friend_of',
+    )
     active = ActiveUserManager()
     objects = models.Manager()
 
