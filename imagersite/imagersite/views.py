@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render, logout, redirect
+from django.shortcuts import render
 from django.views.generic import TemplateView
 from imager_images.models import Photo
 
@@ -23,6 +23,6 @@ class ClassView(TemplateView):
         return {'img': img}
 
 
-    def logout_view(request):
-        logout(request)
-        return redirect('homepage')
+    # def logout_view(request):
+    #     logout(request)
+    #     return redirect('homepage')
