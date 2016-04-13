@@ -12,33 +12,6 @@ PRIVACY_SETTINGS = [
 
 
 @python_2_unicode_compatible
-class Photo(models.Model):
-    """Individual picture uploaded by a user."""
-
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        null=False,
-        default=None,
-    )
-    photos = models.ManyToManyField('Album', related_name='photos')
-    image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
-    title = models.CharField(max_length=255, blank=True)
-    description = models.TextField(blank=True)
-    date_uploaded = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(null=True, blank=True)
-    published = models.CharField(
-        max_length=255,
-        choices=PRIVACY_SETTINGS,
-        default='private',
-    )
-
-    def __str__(self):
-        return self.title
-
-
-@python_2_unicode_compatible
 class Album(models.Model):
     """Photo Album and meta-data about the photos."""
 
@@ -47,12 +20,6 @@ class Album(models.Model):
         on_delete=models.CASCADE,
         related_name='albums',
         null=False,
-        default=None,
-    )
-    cover = models.ForeignKey(
-        Photo,
-        related_name='cover_photo',
-        blank=True,
         default=None,
     )
     title = models.CharField(max_length=255, blank=True)
@@ -66,6 +33,32 @@ class Album(models.Model):
         default='private',
     )
 
+    def __str__(self):
+        return self.title
+
+
+@python_2_unicode_compatible
+class Photo(models.Model):
+    """Individual picture uploaded by a user."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=False,
+        default=None,
+    )
+    photos = models.ManyToManyField(Album, related_name='photos')
+    image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    date_uploaded = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    date_published = models.DateTimeField(null=True, blank=True)
+    published = models.CharField(
+        max_length=255,
+        choices=PRIVACY_SETTINGS,
+        default='private',
+    )
 
     def __str__(self):
         return self.title

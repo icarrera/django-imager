@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.test import TestCase
-from django.contrib.auth.models import User
 from imager_profile.tests import UserFactory
 import factory
 
@@ -25,28 +24,43 @@ class PhotoTestCase(TestCase):
         )
         self.user.set_password('stuff')
 
-        self.image = PhotoFactory.create(
-        title="image-1",
-        user=self.user,
-        description="This is a nature shot.",
-
+        self.image_1 = PhotoFactory.create(
+            title="image 1",
+            user=self.user,
+            description="This is a nature shot.",
+        )
+        self.image_2 = PhotoFactory.create(
+            title="image 2",
+            user=self.user,
+            description="This is a sports photo.",
+        )
+        self.album_1 = AlbumFactory.create(
+            title='2016',
+            user=self.user
         )
 
-    def test_photo_has_user(self):
-        pass
+        self.album_2 = AlbumFactory.create(
+            title='Outdoor Adventures',
+            user=self.user
+        )
 
-    def test_user_has_photo(self):
-        pass
+    def test_album_exists(self):
+        self.assertIsInstance(self.album_1, Album)
 
-class AlbumTestCase(TestCase):
-    def setUp(self):
-        pass
+    def test_photo_exists(self):
+        self.assertIsInstance(self.image_1, Photo)
 
-    def test_user_has_album(self):
-        pass
-
-    def test_photo_in_album(self):
-        pass
-
-    def test_photo_in_multiple_albums(self):
-        pass
+    # def test_photo_has_user(self):
+    #     pass
+    #
+    # def test_user_has_photo(self):
+    #     pass
+    #
+    # def test_user_has_album(self):
+    #     pass
+    #
+    # def test_photo_in_album(self):
+    #     pass
+    #
+    # def test_photo_in_multiple_albums(self):
+    #     pass
