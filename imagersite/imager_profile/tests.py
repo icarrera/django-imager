@@ -12,7 +12,23 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
 
 
-class UserTestCase(TestCase):
+class UnsavedUserCase(TestCase):
+    """Test if user is not saved to database."""
+    def setUp(self):
+        self.user_0 = UserFactory.build(
+            username='george',
+            email='george@example.com'
+        )
+        self.user_0.set_password('secret')
+
+    def test_unsaved_user(self):
+        self.assertIsNone(self.user_0.id)
+
+    def test_create_user_profile(self):
+        george_pr = ImagerProfile(user=self.user_0)
+        self.assertIs(george_pr, self.user_0.profile)
+
+class ExistingUserCase(TestCase):
 
     def setUp(self):
         self.user_1 = UserFactory.create(
@@ -33,12 +49,12 @@ class UserTestCase(TestCase):
     def test_how_many_profiles(self):
         self.assertEqual(len(ImagerProfile.objects.all()), 2)
 
-    def test_not_active_user(self):
-        pass
-
     def test_user_active(self):
-        self.assertTrue(self.user_1.profile, ImagerProfile.active.all())
+        self.assertTrue(self.user_1.profile in ImagerProfile.active.all())
 
+    def test_profile_has_pk(self):
+        self.assertTrue(self.user_2.profile.pk)
+        
     def test_expected_user_username(self):
         self.assertEqual(self.user_1.username, 'bob')
 
@@ -52,7 +68,12 @@ class UserTestCase(TestCase):
         self.assertEqual(self.user_2.friend_of.all()[0], self.user_1.profile)
 
     def test_delete_user(self):
-        ImagerProfile.active.all()[0].delete()
+        self.user_1.delete()
         self.assertNotIn(self.user_1.profile, ImagerProfile.objects.all())
+
+    def test_no_profile_pk_after_delete(self):
+        self.user_1.delete()
+        self.assertIsNone(self.user_1.profile.pk)
+
 
         # use the set password method to hash your password
