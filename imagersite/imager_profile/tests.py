@@ -33,11 +33,17 @@ class UserTestCase(TestCase):
     def test_how_many_profiles(self):
         self.assertEqual(len(ImagerProfile.objects.all()), 2)
 
-    def test_expected_user(self):
-        self.assertEqual(self.user_1.username, ImagerProfile.active.all()[0].user.username)
+    def test_not_active_user(self):
+        pass
+
+    def test_user_active(self):
+        self.assertTrue(self.user_1.profile, ImagerProfile.active.all())
+
+    def test_expected_user_username(self):
+        self.assertEqual(self.user_1.username, 'bob')
 
     def test_expected_email(self):
-        self.assertEqual(self.user_2.email, ImagerProfile.active.all()[1].user.email)
+        self.assertEqual(self.user_2.email, 'sally@example.com')
 
     def test_add_friends(self):
         bob_pr = self.user_1.profile
@@ -47,6 +53,6 @@ class UserTestCase(TestCase):
 
     def test_delete_user(self):
         ImagerProfile.active.all()[0].delete()
-        self.assertNotIn(self.user_1.profile, ImagerProfile.active.all())
+        self.assertNotIn(self.user_1.profile, ImagerProfile.objects.all())
 
         # use the set password method to hash your password
