@@ -45,9 +45,11 @@ class PhotoTestCase(TestCase):
         )
 
     def test_album_exists(self):
+        """Test album was created."""
         self.assertIsInstance(self.album_1, Album)
 
     def test_photo_exists(self):
+        """Test photo was created."""
         self.assertIsInstance(self.image_1, Photo)
 
     # def test_photo_has_user(self):

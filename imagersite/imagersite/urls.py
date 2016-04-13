@@ -18,6 +18,7 @@ from django.contrib import admin
 from .views import home_page
 from .views import ClassView
 from django.views.generic import TemplateView
+from django.conf import settings, static
 
 # image_urls = []
 # profile_urls = []
@@ -29,3 +30,6 @@ urlpatterns = [
     url(r'^home/(?P<id>[0-9]+)$', ClassView.as_view(), name='home_page')
     # url(r'^home/(?P<id>[0-9]+)$', TemplateView.as_view(template_name='home.html'), name='home_page')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
