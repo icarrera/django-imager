@@ -6,11 +6,13 @@ import factory
 
 from imager_images.models import Photo, Album
 
+
 class PhotoFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Photo
 
     image = factory.django.ImageField(color='blue')
+
 
 class AlbumFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -18,7 +20,10 @@ class AlbumFactory(factory.django.DjangoModelFactory):
 
 
 class PhotoTestCase(TestCase):
+    """Test cases for the Photo and Album classes."""
+
     def setUp(self):
+        """Setup of users, photos, and albums for tests."""
         self.user = UserFactory.create(
             username='jaimie',
             email='jaimie@example.com'
