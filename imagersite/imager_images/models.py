@@ -47,7 +47,7 @@ class Photo(models.Model):
         null=False,
         default=None,
     )
-    photos = models.ManyToManyField(Album, related_name='photos')
+    albums = models.ManyToManyField(Album, related_name='photos')
     image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
