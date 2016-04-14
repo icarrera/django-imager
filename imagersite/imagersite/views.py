@@ -9,6 +9,7 @@ from django.contrib.auth import login, logout
 
 
 def home_page(request):
+    """Home page view."""
     try:
         img = Photo.objects.filter(published='public')[-1]
     except:
@@ -31,6 +32,6 @@ def logout_view(request):
     return redirect('homepage')
 
 
-# def login_view(request):
-#     login(request)
-#     return render(request, 'login.html')
+def login_view(request):
+    login(request)
+    return render(request, 'login.html')
