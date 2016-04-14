@@ -33,7 +33,7 @@ urlpatterns = [
     # url(r'^home/(?P<id>[0-9]+)$', home_page, name='home_page'),
     url(r'^$', home_page, name='home_page'),
     url('^', include('django.contrib.auth.urls')),
-    url(r'^login/$', login_view, name='login_view')
+    # url(r'^login/$', login_view, name='login_view')
     # url(r'^home/(?P<id>[0-9]+)$', ClassView.as_view(), name='home_page')
     # url(r'^home/(?P<id>[0-9]+)$', TemplateView.as_view(template_name='home.html'), name='home_page')
 ]

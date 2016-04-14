@@ -32,6 +32,6 @@ def logout_view(request):
     return redirect('homepage')
 
 
-def login_view(request):
-    login(request)
-    return render(request, 'login.html')
+# def login_view(request):
+#     login(request)
+#     return render(request, 'login.html')
