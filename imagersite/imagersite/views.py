@@ -7,10 +7,13 @@ from django.views.generic import TemplateView
 from imager_images.models import Photo
 
 
-
 def home_page(request, *args, **kwargs):
-
-    return render(request, 'home.html', context={})
+    img = '/static/krampus.jpg'
+    try:
+        img = Photo.objects.filter(published = 'public')[-1]
+    except:
+        pass
+    return render(request, 'home.html', context={'img': img})
 
 class ClassView(TemplateView):
     template_name = 'home.html'
@@ -19,7 +22,7 @@ class ClassView(TemplateView):
         try:
             img = Photo.objects.all().order_by("?")[0]
         except IndexError:
-            img = None
+            pass
         return {'img': img}
 
 
