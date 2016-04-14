@@ -9,11 +9,10 @@ from django.contrib.auth import login, logout
 
 
 def home_page(request):
-    img = '/static/krampus.jpg'
     try:
         img = Photo.objects.filter(published='public')[-1]
     except:
-        pass
+        img = '/media/static/krampus.jpg'
     return render(request, 'home.html', context={'img': img})
 
 # class ClassView(TemplateView):
