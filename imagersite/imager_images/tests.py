@@ -62,9 +62,9 @@ class PhotoTestCase(TestCase):
             description='PNW travel photos.',
             user=self.user
         )
-        self.image_1.albums.add(self.album_1)
-        self.image_2.albums.add(self.album_1)
-        self.image_1.albums.add(self.album_2)
+        self.album_1.pictures.add(self.image_1)
+        self.album_1.pictures.add(self.image_2)
+        self.album_2.pictures.add(self.image_1)
 
     def test_photo_exists(self):
         """Test photo was created."""
@@ -84,21 +84,21 @@ class PhotoTestCase(TestCase):
 
     def test_photo_in_album(self):
         """Test if photo is in an album."""
-        self.assertIn(self.image_2, self.album_1.photos.all())
+        self.assertIn(self.image_2, self.album_1.pictures.all())
 
     def test_photo_in_multiple_albums(self):
         """Test that photo is in two separate albums."""
-        self.assertIn(self.image_1, self.album_1.photos.all())
-        self.assertIn(self.image_1, self.album_2.photos.all())
+        self.assertIn(self.image_1, self.album_1.pictures.all())
+        self.assertIn(self.image_1, self.album_2.pictures.all())
 
     def test_photo_not_in_album(self):
         """Test that photo was not added to album."""
-        self.assertNotIn(self.image_3, self.album_1.photos.all())
+        self.assertNotIn(self.image_3, self.album_1.pictures.all())
 
     def test_photo_delete(self):
         """Test that deleted photo is no longer in album."""
         self.image_1.delete()
-        self.assertNotIn(self.image_1, self.album_1.photos.all())
+        self.assertNotIn(self.image_1, self.album_1.pictures.all())
 
     def test_user_has_photo(self):
         """Test that user associated with photo is as expected."""
@@ -138,4 +138,4 @@ class PhotoTestCase(TestCase):
 
     def test_album_has_multiple_photos(self):
         """Test number of photos in album is as expected."""
-        self.assertEqual(len(self.album_1.photos.all()), 2)
+        self.assertEqual(len(self.album_1.pictures.all()), 2)
