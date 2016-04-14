@@ -6,6 +6,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from imager_images.models import Photo
 from django.contrib.auth import login, logout
+from imager_images.models import Photo
+from django.views.generic.detail import DetailView
 
 
 def home_page(request):
@@ -15,6 +17,11 @@ def home_page(request):
     except:
         img = '/media/static/krampus.jpg'
     return render(request, 'home.html', context={'img': img})
+
+
+# def login_view(request):
+#     return login(request)
+
 
 # class ClassView(TemplateView):
 #     template_name = 'home.html'
@@ -26,12 +33,14 @@ def home_page(request):
 #             pass
 #         return {'img': img}
 
+# class-based views class example:
+#
+class PhotoDetailView(DetailView):
+    model = Photo
+    template_name = 'imager_images/photo_detail.html'
+
+
 
 def logout_view(request):
     logout(request)
     return redirect('homepage')
-
-
-def login_view(request):
-    login(request)
-    return render(request, 'login.html')
