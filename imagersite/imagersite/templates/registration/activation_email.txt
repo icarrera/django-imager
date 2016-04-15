@@ -1,0 +1,8 @@
+Hi User!  This email contains your activation key so that you can join our glorious website.
+
+Click this link to confirm your account:
+http://{{site.domain}}{% url 'registration_activate' activation_key %}
+
+You have {{expiration_days}} to complete your registration.
+
+

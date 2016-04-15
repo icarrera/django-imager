@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth.views import login
+from django.contrib.auth.views import login, logout
 from .views import home_page
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+import registration  
 # from django.conf import settings, static
 
 # image_urls = []
@@ -29,7 +30,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
-    url(r'^login/$', login, {'template_name': 'login.html'}, name='login')
+    url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
+    url(r'^logout/$', logout, {'redirect_field_name': 'home_page'}, name='logout'),
+    # url(r'^register/$', register, {'template_name': 'register/registration_form.html'}, name='register'),
+    url(r'^accounts/', include('registration.backends.hmac.urls'))
 
     # url(r'^home/(?P<id>[0-9]+)$', home_page, name='home_page'),
     # url('^', include('django.contrib.auth.urls')),

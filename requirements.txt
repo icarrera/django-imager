@@ -1,7 +1,10 @@
+appnope==0.1.0
 decorator==4.0.9
 Django==1.9.5
+django-registration==2.0.4
 factory-boy==2.6.1
 fake-factory==0.5.7
+gnureadline==6.3.3
 ipython==4.1.2
 ipython-genutils==0.1.0
 path.py==8.1.2
