@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
-from .views import home_page
+from .views import home_page, ProfileView
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,7 +26,8 @@ import registration
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
-    url(r'^accounts/', include('registration.backends.hmac.urls'))
+    url(r'^accounts/profile$', TemplateView.as_view(template_name='registration/user_profile.html')),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
     # url(r'^accounts/profile', include('resistration.backends.hmacs.urls'))
 ]
 

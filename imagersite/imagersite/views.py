@@ -5,8 +5,8 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from imager_images.models import Photo
+from imager_profile.models import ImagerProfile
 from django.contrib.auth import login, logout
-from imager_images.models import Photo
 from django.views.generic.detail import DetailView
 
 
@@ -21,4 +21,8 @@ def home_page(request):
 
 class PhotoDetailView(DetailView):
     model = Photo
-    template_name = 'imager_images/photo_detail.html'
+    template_name = 'imager_images/templates/photo_detail.html'
+
+class ProfileView(TemplateView):
+    model = ImagerProfile
+    template_name = 'user_profile.html'
