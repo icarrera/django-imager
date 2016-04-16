@@ -21,17 +21,22 @@ class SimpleTest(TestCase):
 
     def test_get_bad_uri(self):
         """Test 404 Error for invalid uri."""
-        response = self.cl.get('/l0g!n/')
+        response = self.cl.get('/accounts/l0g!n/')
         self.assertEqual(response.status_code, 404)
 
     def test_login_view_get(self):
         """Test 200 status code response for login view."""
-        response = self.cl.get('/login/')
+        response = self.cl.get('/accounts/login/')
         self.assertEqual(response.status_code, 200)
 
     def test_login_view_authentication(self):
-        response = self.cl.post('/login/', {'username': self.user_1.username, 'password': self.user_1.password})
-        pass
+        response = self.cl.post('/accounts/login/', {'username': self.user_1.username, 'password': self.user_1.password})
+        from django.contrib.auth.signals import user_logged_in
+        def logged_in_user(send, user, request, **kwargs):
+            return user
+        test_user = user_logged_in.connect(logged_in_user)
+        # import pdb; pdb.set_trace()
+        self.assertEqual(self.user_1.username, test_user.username)
 
     def test_login_post(self):
         self.cl.login(username=self.user_1, password=self.user_1.password)

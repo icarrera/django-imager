@@ -19,28 +19,6 @@ def home_page(request):
     return render(request, 'home.html', context={'img': img})
 
 
-# def login_view(request):
-#     return login(request)
-
-
-# class ClassView(TemplateView):
-#     template_name = 'home.html'
-#
-#     def get_context_data(self):
-#         try:
-#             img = Photo.objects.all().order_by("?")[0]
-#         except IndexError:
-#             pass
-#         return {'img': img}
-
-# class-based views class example:
-#
 class PhotoDetailView(DetailView):
     model = Photo
     template_name = 'imager_images/photo_detail.html'
-
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('homepage')

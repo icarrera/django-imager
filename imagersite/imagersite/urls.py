@@ -26,13 +26,8 @@ import registration
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
-    url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
-    url(r'^logout/$', logout, {'redirect_field_name': 'home_page'}, name='logout'),
     url(r'^accounts/', include('registration.backends.hmac.urls'))
-
-    # url('^', include('django.contrib.auth.urls')),
-    # url(r'^home/(?P<id>[0-9]+)$', ClassView.as_view(), name='home_page')
-    # url(r'^home/(?P<id>[0-9]+)$', TemplateView.as_view(template_name='home.html'), name='home_page')
+    # url(r'^accounts/profile', include('resistration.backends.hmacs.urls'))
 ]
 
 if settings.DEBUG:
