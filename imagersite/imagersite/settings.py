@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from django.conf import settings
+from django.conf.urls.static import static
+# from .urls import urlpatterns
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,13 +28,20 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!j^m_tbb8syiq%gv@-s2v5ylwh7s(ouda1*tir*dm(3g0sysm('
+SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = '!j^m_tbb8syiq%gv@-s2v5ylwh7s(ouda1*tir*dm(3g0sysm('
+# SECRET_KEY = 'as;fas;df;jafbfjioajgiopfjpiagaufwe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'emails')
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -42,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'imager_profile',
-    'imager_images'
+    'imager_images',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -83,10 +94,11 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'imager',
-        'USER': 'roboiris',
-        'PASSWORD': 'secret',
-        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
 
@@ -122,6 +134,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+ACCOUNT_ACTIVATION_DAYS = 30
+
+
 
 
 # Static files (CSS, JavaScript, Images)

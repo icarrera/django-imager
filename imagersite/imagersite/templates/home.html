@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h1>HELLO WORLD!</h1>
     <p>Welcome to our Imager Site!</p>
-    <img src='{{ image.file.url }}'/>
-</body>
-</html>
+    <img src="{{ img }}" alt="Default Home Image">
+    <p>click <a href="/login/">HERE</a> to login!</p>
+{% endblock %}

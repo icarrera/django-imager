@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <header>
+           <h1>Imager Magic</h1>
+           <nav>
+               <ul>
+                   <li>Welcome {{ request.user.username }}! </li>
+                   <li><a href="/"><button>Home</button></a></li>
+                   <li><a href="/accounts/login/"><button>Login</button></a></li>
+                   <li><a href="/accounts/logout/"><button>Logout</button></a></li>
+               </ul>
+           </nav>
+       </header>
+        {% block content %} {% endblock %}
+    </body>
+</html>

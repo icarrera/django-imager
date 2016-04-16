@@ -12,21 +12,21 @@ PRIVACY_SETTINGS = [
 
 
 @python_2_unicode_compatible
-class Album(models.Model):
-    """Photo Album and meta-data about the photos."""
+class Photo(models.Model):
+    """Individual picture uploaded by a user."""
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
-        related_name='albums',
         null=False,
         default=None,
     )
+    image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(auto_now_add=True)
+    date_published = models.DateTimeField(null=True, blank=True)
     published = models.CharField(
         max_length=255,
         choices=PRIVACY_SETTINGS,
@@ -38,22 +38,22 @@ class Album(models.Model):
 
 
 @python_2_unicode_compatible
-class Photo(models.Model):
-    """Individual picture uploaded by a user."""
+class Album(models.Model):
+    """Photo Album and meta-data about the photos."""
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name='albums',
         null=False,
         default=None,
     )
-    albums = models.ManyToManyField(Album, related_name='photos')
-    image = models.ImageField(upload_to='photo_files/%Y-%m-%d', null=True)
     title = models.CharField(max_length=255, blank=True)
+    pictures = models.ManyToManyField(Photo, related_name='photos', null=True)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    date_published = models.DateTimeField(null=True, blank=True)
+    date_published = models.DateTimeField(auto_now_add=True)
     published = models.CharField(
         max_length=255,
         choices=PRIVACY_SETTINGS,
