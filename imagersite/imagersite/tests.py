@@ -12,6 +12,7 @@ class SimpleTest(TestCase):
             email='jaimie@example.com'
         )
         self.user_1.set_password('stuff12345')
+        self.user_1.save()
         self.user_2 = UserFactory.build(
             username='krampus',
             email='krampus@krampus.net'
@@ -30,13 +31,12 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_login_view_authentication(self):
-        response = self.cl.post('/accounts/login/', {'username': self.user_1.username, 'password': self.user_1.password})
-        from django.contrib.auth.signals import user_logged_in
-        def logged_in_user(send, user, request, **kwargs):
-            return user
-        test_user = user_logged_in.connect(logged_in_user)
-        # import pdb; pdb.set_trace()
-        self.assertEqual(self.user_1.username, test_user.username)
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        self.assertTrue(logged_in)
+
+    def test_login_fail(self):
+        logged_in = self.cl.login(username='krampus', password='krampusrocks')
+        self.assertFalse(logged_in)
 
     def test_login_post(self):
         self.cl.login(username=self.user_1, password=self.user_1.password)
