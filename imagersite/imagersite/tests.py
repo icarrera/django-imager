@@ -38,9 +38,8 @@ class SimpleTest(TestCase):
         logged_in = self.cl.login(username='krampus', password='krampusrocks')
         self.assertFalse(logged_in)
 
-    def test_login_post(self):
-        self.cl.login(username=self.user_1, password=self.user_1.password)
-        pass
+    def test_logout_view_get(self):
+        
 
     def test_register_view_get(self):
         """Test 200 status code response for register view."""
