@@ -29,22 +29,39 @@ class SimpleTest(TestCase):
         """Test 200 status code response for login view."""
         response = self.cl.get('/accounts/login/')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'registration/login.html')
 
     def test_login_view_authentication(self):
+        """Test if valid user is able to login."""
         logged_in = self.cl.login(username='jaimie', password='stuff12345')
         self.assertTrue(logged_in)
 
     def test_login_fail(self):
+        """Test invalid user login failure."""
         logged_in = self.cl.login(username='krampus', password='krampusrocks')
         self.assertFalse(logged_in)
 
     def test_logout_view_get(self):
-        
+        """ Test 200 status code response for logout view."""
+        response = self.cl.get('/accounts/logout/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'registration/logout.html')
 
     def test_register_view_get(self):
         """Test 200 status code response for register view."""
         response = self.cl.get('/accounts/register/')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'registration/registration_form.html')
+
+    def test_registration_complete_view(self):
+        response = self.cl.get('/accounts/register/complete/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'registration/registration_complete.html')
+
+    def test_activation_complete_view(self):
+        response = self.cl.get('/accounts/activate/complete/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.templates[0].name, 'registration/activation_complete.html')
 
 
 class EmailTest(TestCase):
