@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^$', home_page, name='home_page'),
     url(r'^images/photos/\d+$', DetailView.as_view(template_name='photo_view.html')),
     url(r'^images/library/$', TemplateView.as_view(template_name='library.html')),
-    url(r'^accounts/profile$', TemplateView.as_view(template_name='user_profile.html')),
+    url(r'^profile$', TemplateView.as_view(template_name='user_profile.html')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
 

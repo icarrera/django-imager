@@ -42,7 +42,7 @@ if DEBUG:
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
@@ -126,10 +126,21 @@ AUTH_PASSWORD_VALIDATORS = [
 
 CACHES = {
     'default': {
-    'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-    'LOCATION': '127.0.0.1:11211',
+    'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+    'LOCATION': 'cache_table',
     }
 }
+#Our attempt to implement memcached:
+# def make_key(key, key_prefix, version):
+#     return bytes(':'.join(key_prefix, str(version), key))
+
+# CACHES = {
+#     'default': {
+#     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#     'LOCATION': '127.0.0.1:11211',
+#     'KEY_FUNCTION': 'imagersite.settings.py:make_key'
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

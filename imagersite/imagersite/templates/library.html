@@ -3,31 +3,9 @@
 Hello! This is the library page!
 <p>Albums</p>
 <ul>
-    {% for album in user.albums.values %}
-    <li> {{ album.title }}
-        {% for photo in user.photo_set.values %}
-            {% if album.cover_photo_id == photo.id %}
-                <a href="/images/album/{{album.id}}">
-                    <img src="/media/{{photo.image}}" width='100' height='100'>
-                </a>
-            {% endif %}
-        {% endfor %}
-    </li>
-    {% endfor %}
-</ul>
-<p>Photos</p>
-<ul>
-    {% for photo in user.photo_set.values %}
-    <li> {{photo.title}}
-            <img src="/media/{{photo.image}}" width="100", height="100">
-    </li>
-    {% endfor %}
-</ul>
-
-<ul>
     {% load thumbnail %}
     {% for album in user.albums.all %}
-        {% thumbnail album.cover_photo.image as img %}
+        {% thumbnail album.cover_photo.image "100x100" as img %}
             <li>
                 <img src="{{ img.url }}">
             </li>
@@ -36,4 +14,16 @@ Hello! This is the library page!
         {% endthumbnail %}
     {% endfor %}
 </ul>
+<p>Photos</p>
+<ul>
+    {% for photo in user.photo_set.all %}
+        {% thumbnail photo.image "100x100" as im %}
+            <li> 
+                <p>{{photo.title}}:</p>
+                <img src="{{im.url}}">
+            </li>
+        {% endthumbnail %}
+    {% endfor %}
+</ul>
+
 {% endblock %}
