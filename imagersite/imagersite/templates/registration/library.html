@@ -4,13 +4,25 @@ Hello! This is the library page!
 <p>Albums</p>
 <ul>
     {% for album in user.albums.values %}
-    <li> {{ album.title }}</li>
+    <li> {{ album.title }}
+        {% for photo in user.photo_set.values %}
+            {% if album.cover_photo_id == photo.id %}
+                <a href="/imamges/album/{{album.id}}"> 
+                    <img src="/media/{{photo.image}}" width='100' height='100'>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </li>
     {% endfor %}
 </ul>
 <p>Photos</p>
 <ul>
     {% for photo in user.photo_set.values %}
-    <li> {{photo.title}} </li>
+    <li> {{photo.title}} 
+        <a href="/images/photos/{{photo.id}}">
+            <img src="/media/{{photo.image}}" width="100", height="100">
+        </a>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}

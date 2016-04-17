@@ -17,7 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from .views import home_page, ProfileView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.conf import settings
 from django.conf.urls.static import static
 import registration
@@ -26,6 +26,7 @@ import registration
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
+    url(r'^images/photos/\d+$', DetailView.as_view(template_name='registration/photo_view')),
     url(r'^images/library/$', TemplateView.as_view(template_name='registration/library.html')),
     url(r'^accounts/profile$', TemplateView.as_view(template_name='registration/user_profile.html')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
