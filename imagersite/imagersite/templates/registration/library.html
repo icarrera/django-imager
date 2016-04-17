@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+Hello! This is the library page!
+<p>Albums</p>
+<ul>
+    {% for album in user.albums.values %}
+    <li> {{ album.title }}</li>
+    {% endfor %}
+</ul>
+<p>Photos</p>
+<ul>
+    {% for photo in user.photo_set.values %}
+    <li> {{photo.title}} </li>
+    {% endfor %}
+</ul>
+{% endblock %}

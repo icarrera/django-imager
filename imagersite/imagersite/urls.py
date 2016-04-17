@@ -26,9 +26,9 @@ import registration
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
+    url(r'^images/library/$', TemplateView.as_view(template_name='registration/library.html')),
     url(r'^accounts/profile$', TemplateView.as_view(template_name='registration/user_profile.html')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
-    # url(r'^accounts/profile', include('resistration.backends.hmacs.urls'))
 ]
 
 if settings.DEBUG:

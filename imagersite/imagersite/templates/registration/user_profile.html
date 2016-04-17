@@ -14,15 +14,10 @@
             {{request.user.profile.region.label}}: {{request.user.profile.region}}
         </li>
         <li>
-            <p>Albums:</p>
-            <ul>
-            {% for album in request.user.albums.Count %}
-                <li>{{album.name}} contains photos.</li>
-            {% endfor %}
-            </ul>
+            <p>Total Albums: {{ user.albums.count }}</p>
         </li>
         <li>
-            <p> Total Photos: {{request.user.photos.Count}} </p>
+            <p> Total Photos: {{user.photo_set.count}} </p>
         </li>
     </ul>
 </section>
