@@ -34,6 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECRET_KEY = 'as;fas;df;jafbfjioajgiopfjpiagaufwe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+THUMBNAIL_DEBUG = True
 DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'

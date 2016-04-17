@@ -7,7 +7,7 @@ Hello! This is the library page!
     <li> {{ album.title }}
         {% for photo in user.photo_set.values %}
             {% if album.cover_photo_id == photo.id %}
-                <a href="/imamges/album/{{album.id}}"> 
+                <a href="/images/album/{{album.id}}">
                     <img src="/media/{{photo.image}}" width='100' height='100'>
                 </a>
             {% endif %}
@@ -18,11 +18,22 @@ Hello! This is the library page!
 <p>Photos</p>
 <ul>
     {% for photo in user.photo_set.values %}
-    <li> {{photo.title}} 
-        <a href="/images/photos/{{photo.id}}">
+    <li> {{photo.title}}
             <img src="/media/{{photo.image}}" width="100", height="100">
-        </a>
     </li>
+    {% endfor %}
+</ul>
+
+<ul>
+    {% load thumbnail %}
+    {% for album in user.albums.all %}
+        {% thumbnail album.cover_photo.image as img %}
+            <li>
+                <img src="{{ img.url }}">
+            </li>
+            {% empty %}
+            <p> sorry! no image </p>
+        {% endthumbnail %}
     {% endfor %}
 </ul>
 {% endblock %}
