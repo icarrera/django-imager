@@ -164,7 +164,10 @@ ACCOUNT_ACTIVATION_DAYS = 30
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = './static'
+STATICFILES_DIRS = [
+    './static'
+]
+
 
 # for viewing images in debug mode:
 # if settings.DEBUG:

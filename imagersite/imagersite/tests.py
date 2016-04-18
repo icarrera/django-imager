@@ -27,10 +27,16 @@ class SimpleTest(TestCase):
             email='hacker@hacker.com',
         )
         self.user_3.set_password('iwilltrytohackyou')
+        self.user_3.save()
         self.image_1 = PhotoFactory.create(
             title="image 1",
             user=self.user_1,
             description="This is a nature shot.",
+        )
+        self.image_2 = PhotoFactory.create(
+            title="image 2",
+            user=self.user_3,
+            description="This is a sports photo.",
         )
         self.album_1 = AlbumFactory.create(
             title='2016',
@@ -38,7 +44,14 @@ class SimpleTest(TestCase):
             user=self.user_1,
             cover_photo=self.image_1
         )
+        self.album_2 = AlbumFactory.create(
+            title='sports',
+            description='This is sporty.',
+            user=self.user_3,
+            cover_photo=self.image_2
+        )
         self.album_1.pictures.add(self.image_1)
+        self.album_2.pictures.add(self.image_2)
 
     def test_get_bad_uri(self):
         """Test 404 Error for invalid uri."""
@@ -90,6 +103,15 @@ class SimpleTest(TestCase):
         response = self.cl.get('/images/library/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.templates[0].name, 'library.html')
+
+    def test_view_own_library(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        response = self.cl.get('/images/library/')
+        response_body = response.content.decode('utf-8')
+        self.assertIn(
+            'images/photos/' + str(self.image_1.id),
+            response_body
+        )
 
 
 class EmailTest(TestCase):

@@ -1,7 +1,7 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
-        {% load staticfiles %}
         <link rel="stylesheet" type="text/css" href="{% static "normalize.css" %}">
         <link rel="stylesheet" type="text/css" href="{% static "skeleton.css" %}">
         <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
@@ -11,10 +11,11 @@
            <h1>Imager Magic</h1>
            <nav>
                <ul>
-                   <li>Welcome {{ request.user.username }}! </li>
+                   <li>Welcome {{ request.user.username }} </li>
                    <li><a href="/"><button>Home</button></a></li>
                    <li><a href="/accounts/login/"><button>Login</button></a></li>
                    <li><a href="/accounts/logout/"><button>Logout</button></a></li>
+                   <li><a href="/images/library"><button>Library</button></a></li>
                </ul>
            </nav>
        </header>
