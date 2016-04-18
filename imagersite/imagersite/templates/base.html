@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/normalize.css">
-        <link rel="stylesheet" type="text/css" href="/skeleton.css">
-        <link rel="stylesheet" type="text/css" href="/style.css">
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static "normalize.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "skeleton.css" %}">
+        <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
     </head>
     <body>
         <header>
