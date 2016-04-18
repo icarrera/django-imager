@@ -21,7 +21,8 @@ def home_page(request):
 
 class PhotoDetailView(DetailView):
     model = Photo
-    template_name = 'imager_images/templates/photo_detail.html'
+    template_name = '/imagersite/templates/photo_view.html'
+
 
 class ProfileView(TemplateView):
     model = ImagerProfile

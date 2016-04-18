@@ -1,2 +1,4 @@
 {% extends 'base.html' %}
-<img src="/media/{% photo.image %}">
+{% block content %}
+<img src="/media/{{ photo.image }}">
+{% endblock %}
