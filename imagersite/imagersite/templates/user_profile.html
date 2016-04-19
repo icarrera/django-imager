@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section id='user_details'>
+    <ul>
+        <li>
+            {{request.user.username.label}}: {{request.user.username}}
+        </li>
+        <li>
+            {{request.user.email.label}}: {{request.user.email}}
+        </li>
+        <li>
+            {{request.user.profile.region.label}}: {{request.user.profile.region}}
+        </li>
+        <li>
+            <p>Total Albums: {{ user.albums.count }}</p>
+        </li>
+        <li>
+            <p> Total Photos: {{user.photo_set.count}} </p>
+        </li>
+    </ul>
+</section>
+{% endblock %}

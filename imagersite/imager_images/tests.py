@@ -54,13 +54,15 @@ class PhotoTestCase(TestCase):
         self.album_1 = AlbumFactory.create(
             title='2016',
             description='Random photos 2016.',
-            user=self.user
+            user=self.user,
+            cover_photo=self.image_1
         )
 
         self.album_2 = AlbumFactory.create(
             title='Outdoor Adventures',
             description='PNW travel photos.',
-            user=self.user
+            user=self.user,
+            cover_photo=self.image_1
         )
         self.album_1.pictures.add(self.image_1)
         self.album_1.pictures.add(self.image_2)

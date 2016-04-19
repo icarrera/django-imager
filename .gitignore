@@ -63,3 +63,6 @@ target/
 
 # env file
 env.sh
+
+# media cache
+.media/cache/

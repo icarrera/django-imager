@@ -32,7 +32,6 @@ class Photo(models.Model):
         choices=PRIVACY_SETTINGS,
         default='private',
     )
-
     def __str__(self):
         return self.title
 
@@ -48,8 +47,14 @@ class Album(models.Model):
         null=False,
         default=None,
     )
+    cover_photo = models.ForeignKey(
+        Photo,
+        on_delete=models.CASCADE,
+        related_name='cover',
+        default=None
+    )
     title = models.CharField(max_length=255, blank=True)
-    pictures = models.ManyToManyField(Photo, related_name='photos', null=True)
+    pictures = models.ManyToManyField(Photo, related_name='photos')
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

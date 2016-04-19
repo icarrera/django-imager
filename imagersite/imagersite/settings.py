@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 from django.conf import settings
 from django.conf.urls.static import static
+from django.core.cache.backends.memcached import MemcachedCache
 # from .urls import urlpatterns
 
 
@@ -33,6 +34,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECRET_KEY = 'as;fas;df;jafbfjioajgiopfjpiagaufwe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+THUMBNAIL_DEBUG = True
 DEBUG = True
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
@@ -40,7 +42,7 @@ if DEBUG:
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'imager_profile',
     'imager_images',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -121,6 +124,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    'default': {
+    'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+    'LOCATION': 'cache_table',
+    }
+}
+#Our attempt to implement memcached:
+# def make_key(key, key_prefix, version):
+#     return bytes(':'.join(key_prefix, str(version), key))
+
+# CACHES = {
+#     'default': {
+#     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#     'LOCATION': '127.0.0.1:11211',
+#     'KEY_FUNCTION': 'imagersite.settings.py:make_key'
+#     }
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -144,6 +164,10 @@ ACCOUNT_ACTIVATION_DAYS = 30
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    './static'
+]
+
 
 # for viewing images in debug mode:
 # if settings.DEBUG:
