@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.views.generic.edit import ModelFormMixin
 
 
 def home_page(request):
@@ -27,7 +28,7 @@ def home_page(request):
 class PhotoDetailView(DetailView):
     """Photo detail view."""
     model = Photo
-    template_name = 'photo_view.html'
+    template_name = 'imager_images/photo_view.html'
 
     def get(self, request, *args, **kwargs):
         """Return photo if user owns photo."""
@@ -46,11 +47,11 @@ class PhotoDetailView(DetailView):
 class AlbumDetailView(DetailView):
     """Album detail view."""
     model = Album
-    template_name = 'album_view.html'
+    template_name = 'imager_images/album_view.html'
 
     def get(self, request, *args, **kwargs):
         try:
-            album = Album.objects.filter(pk=kwargs['pk'].get())
+            album = Album.objects.filter(pk=kwargs['pk']).get()
         except ObjectDoesNotExist:
             raise HttpResponseNotFound('<h1>Page not found.')
         if (
@@ -72,7 +73,17 @@ class ProfileView(TemplateView):
 class CreatePhoto(CreateView):
     model = Photo
     template_name_suffix = '_create_form'
-    fields = ['title', 'description', 'published', 'image'] 
+    fields = ['title', 'description', 'published', 'image']
+
+    def form_valid(self, form, *args, **kwargs):
+        """
+        If the form is valid, save the associated model.
+        """
+        # import pdb; pdb.set_trace()
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user.id
+        self.object.save()
+        return super(CreatePhoto, self).form_valid(form)
 
 
 
@@ -82,4 +93,4 @@ class CreatePhoto(CreateView):
 #     model = Album
 #     template_name = 'create_content.html'
 
-#     def 
+#     def
