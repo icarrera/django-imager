@@ -16,12 +16,13 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
-from .views import home_page
+from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, DetailView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import registration
+from .views import home_page
 from imager_images.models import Photo, Album
 
 
@@ -36,7 +37,7 @@ urlpatterns = [
         queryset=Album.objects.filter(),
         model=Album,
         template_name='album_view.html')),
-    url(r'^images/library/$', TemplateView.as_view(template_name='library.html')),
+    url(r'^images/library/$', login_required(TemplateView.as_view(template_name='library.html'))),
     url(r'^profile$', TemplateView.as_view(template_name='user_profile.html')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

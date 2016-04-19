@@ -5,7 +5,7 @@ from imager_profile.tests import UserFactory
 from imager_images.tests import PhotoFactory, AlbumFactory
 from django.contrib.auth.views import login
 
-class SimpleTest(TestCase):
+class ViewsTest(TestCase):
     def setUp(self):
         self.r_factory = RequestFactory()
         self.user_1 = UserFactory.create(
