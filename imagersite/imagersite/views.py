@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from imager_images.models import Photo
+from imager_images.models import Photo, Album
 from imager_profile.models import ImagerProfile
 from django.contrib.auth import login, logout
 from django.views.generic.detail import DetailView
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -41,7 +41,28 @@ class PhotoDetailView(DetailView):
         else:
             raise PermissionDenied
 
+@method_decorator(login_required, name='dispatch')
+class AlbumDetailView(DetailView):
+    """Album detail view."""
+    model = Album
+    template_name = 'album_view.html'
 
+    def get(self, request, *args, **kwargs):
+        try:
+            album = Album.objects.filter(pk=kwargs['pk'].get())
+        except ObjectDoesNotExist:
+            raise HttpResponseNotFound('<h1>Page not found.')
+        if (
+            request.user == album.user or
+            album.published == 'public' or
+            (request.user in album.user.friend_of.all() and
+                album.published == 'shared')
+        ):
+            return render(request, self.template_name, {'album': album})
+        else:
+            raise PermissionDenied
+
+@method_decorator(login_required, name='dispatch')
 class ProfileView(TemplateView):
     model = ImagerProfile
     template_name = 'user_profile.html'

@@ -37,6 +37,7 @@ class ViewsTest(TestCase):
             title="image 2",
             user=self.user_3,
             description="This is a sports photo.",
+            published='public',
         )
         self.album_1 = AlbumFactory.create(
             title='2016',
@@ -101,8 +102,7 @@ class ViewsTest(TestCase):
     def test_library_view(self):
         """Test 200 status code for library view."""
         response = self.cl.get('/images/library/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.templates[0].name, 'library.html')
+        self.assertEqual(response.status_code, 302)
 
     def test_view_own_library(self):
         logged_in = self.cl.login(username='jaimie', password='stuff12345')
@@ -112,6 +112,30 @@ class ViewsTest(TestCase):
             'images/photos/' + str(self.image_1.id),
             response_body
         )
+
+    def test_permission_denied(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        logged_in2 = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        photo_id = self.image_1.id
+        response = self.cl_3.get('/images/photos/' + str(photo_id))
+        self.assertEqual(response.status_code, 403)
+
+    def test_view_libraries_different(self):
+        logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        response = self.cl_3.get('/images/library/')
+        response_body = response.content.decode('utf-8')
+        self.assertNotIn(
+            'images/photos/' + str(self.image_1.id),
+            response_body
+        )
+
+    def test_user_view_public_photo(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        photo_id = self.image_2.id
+        response = self.cl.get('/images/photos/' + str(photo_id))
+        self.assertEqual(response.status_code, 200)
+
+
 
 
 class EmailTest(TestCase):
