@@ -8,6 +8,7 @@ from imager_images.models import Photo, Album
 from imager_profile.models import ImagerProfile
 from django.contrib.auth import login, logout
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -66,3 +67,19 @@ class AlbumDetailView(DetailView):
 class ProfileView(TemplateView):
     model = ImagerProfile
     template_name = 'user_profile.html'
+
+@method_decorator(login_required, name='dispatch')
+class CreatePhoto(CreateView):
+    model = Photo
+    template_name_suffix = '_create_form'
+    fields = ['title', 'description', 'published', 'image'] 
+
+
+
+
+# @method_decorator(login_required, name='dispatch')
+# class CreateAlbum(CreateView):
+#     model = Album
+#     template_name = 'create_content.html'
+
+#     def 
