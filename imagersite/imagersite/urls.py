@@ -22,21 +22,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import registration
-from .views import home_page
+from .views import home_page, PhotoDetailView
 from imager_images.models import Photo, Album
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
-    url(r'^images/photos/(?P<pk>\d+)', DetailView.as_view(
-        queryset=Photo.objects.filter(),
-        model=Photo,
-        template_name='photo_view.html')),
-    url(r'^images/album/(?P<pk>\d+)', DetailView.as_view(
+    url(r'^images/photos/(?P<pk>\d+)', PhotoDetailView.as_view()),
+    # url(r'^images/photos/(?P<pk>\d+)', login_required(DetailView.as_view(
+    #     queryset=Photo.objects.filter(user__username="photo.user.username"),
+    #     model=Photo,
+    #     template_name='photo_view.html'))),
+    url(r'^images/album/(?P<pk>\d+)', login_required(DetailView.as_view(
         queryset=Album.objects.filter(),
         model=Album,
-        template_name='album_view.html')),
+        template_name='album_view.html'))),
     url(r'^images/library/$', login_required(TemplateView.as_view(template_name='library.html'))),
     url(r'^profile$', TemplateView.as_view(template_name='user_profile.html')),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
