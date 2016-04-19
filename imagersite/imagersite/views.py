@@ -31,10 +31,15 @@ class PhotoDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         """Return photo if user owns photo."""
         photo = Photo.objects.filter(pk=kwargs['pk']).get()
-        if request.user != photo.user:
-            raise PermissionDenied
-        else:
+        if (
+            request.user == photo.user or
+            photo.published == 'public' or
+            (request.user in photo.user.friend_of.all() and
+                photo.published == 'shared')
+        ):
             return render(request, self.template_name, {'photo': photo})
+        else:
+            raise PermissionDenied
 
 
 class ProfileView(TemplateView):
