@@ -13,6 +13,7 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import ModelFormMixin
+from django.core.exceptions import ImproperlyConfigured
 
 
 def home_page(request):
@@ -53,7 +54,7 @@ class AlbumDetailView(DetailView):
         try:
             album = Album.objects.filter(pk=kwargs['pk']).get()
         except ObjectDoesNotExist:
-            raise HttpResponseNotFound('<h1>Page not found.')
+            raise HttpResponseNotFound('<h1>Page not found.</h1>')
         if (
             request.user == album.user or
             album.published == 'public' or
@@ -86,11 +87,26 @@ class CreatePhoto(CreateView):
         return super(CreatePhoto, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
+class CreateAlbum(CreateView):
+    model = Album
+    template_name_suffix = '_create_form'
+    fields = ['title', 'description', 'published', 'pictures', 'cover_photo']
 
+    def get_form(self, form_class=None):
+        """
+        Returns an instance of the form to be used in this view.
+        """
+        # import pdb; pdb.set_trace()
+        form = super(CreateAlbum, self).get_form()
+        form.fields['pictures'].queryset = self.request.user.photo_set.all()
+        return form
 
-# @method_decorator(login_required, name='dispatch')
-# class CreateAlbum(CreateView):
-#     model = Album
-#     template_name = 'create_content.html'
-
-#     def
+    def form_valid(self, form, *args, **kwargs):
+        """
+        If the form is valid, save the associated model.
+        """
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user.id
+        self.object.save()
+        return super(CreateAlbum, self).form_valid(form)

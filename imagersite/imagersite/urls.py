@@ -22,7 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 import registration
-from .views import home_page, PhotoDetailView, CreatePhoto, AlbumDetailView
+from .views import home_page, PhotoDetailView, CreatePhoto, AlbumDetailView, CreateAlbum
 from imager_images.models import Photo, Album
 
 
@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_page, name='home_page'),
     url(r'^images/photos/add', CreatePhoto.as_view(success_url="/images/library/")),
+    url(r'^images/albums/add', CreateAlbum.as_view(success_url="/images/library/")),
     url(r'^images/photos/(?P<pk>\d+)', PhotoDetailView.as_view()),
     url(r'^images/album/(?P<pk>\d+)', AlbumDetailView.as_view()),
     url(r'^images/library/$', login_required(TemplateView.as_view(template_name='imager_images/library.html'))),
