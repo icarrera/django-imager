@@ -13,7 +13,9 @@ from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import ModelFormMixin
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ValidationError
+from django.forms import ModelForm
+from django.contrib.auth.models import User
 
 
 def home_page(request):
@@ -23,6 +25,35 @@ def home_page(request):
     except:
         img = '/media/static/krampus.jpg'
     return render(request, 'home.html', context={'img': img})
+
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = ImagerProfile
+        fields = ['camera_model', 'photography_type', 'location', 'friends']
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form_1 = UserForm(request.POST)
+        form_2 = ProfileForm(request.POST)
+        try:
+            form_1.is_valid()
+            form_2.is_valid()
+            form_1.save()
+            form_2.save()
+        except:
+            ValidationError(_('FILL OUT MORE BETTER'), code='invalid')
+    if request.method == 'GET':
+        form_1 = UserForm(instance=request.user)
+        form_2 = ProfileForm(instance=request.user.profile)
+        return render(request, 'imager_profile/profile_update_form.html', context={'form_1': form_1, 'form_2': form_2})
+
 
 
 @method_decorator(login_required, name='dispatch')
@@ -76,7 +107,9 @@ class ProfileView(TemplateView):
 # class EditProfile(UpdateView):
 #     model = ImagerProfile
 #     template_name_suffix = '_update_form'
-#     fields = ['', 'description', 'published', 'image']
+#     slug_field = 'user_id'
+#     slug_url_kwarg = 'slug'
+#     fields = ['firstname', 'lastname', 'email', 'friends', 'region', 'camera_model', 'photography_type']
 
 
 @method_decorator(login_required, name='dispatch')
@@ -158,4 +191,3 @@ class EditPhoto(UpdateView):
         self.object.user_id = self.request.user.id
         self.object.save()
         return super(EditPhoto, self).form_valid(form)
-
