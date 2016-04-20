@@ -44,6 +44,7 @@ class PhotoDetailView(DetailView):
         else:
             raise PermissionDenied
 
+
 @method_decorator(login_required, name='dispatch')
 class AlbumDetailView(DetailView):
     """Album detail view."""
@@ -65,10 +66,18 @@ class AlbumDetailView(DetailView):
         else:
             raise PermissionDenied
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileView(TemplateView):
     model = ImagerProfile
     template_name = 'user_profile.html'
+
+# @method_decorator(login_required, name='dispatch')
+# class EditProfile(UpdateView):
+#     model = ImagerProfile
+#     template_name_suffix = '_update_form'
+#     fields = ['', 'description', 'published', 'image']
+
 
 @method_decorator(login_required, name='dispatch')
 class CreatePhoto(CreateView):
@@ -80,7 +89,6 @@ class CreatePhoto(CreateView):
         """
         If the form is valid, save the associated model.
         """
-        # import pdb; pdb.set_trace()
         self.object = form.save(commit=False)
         self.object.user_id = self.request.user.id
         self.object.save()
@@ -97,7 +105,6 @@ class CreateAlbum(CreateView):
         """
         Returns an instance of the form to be used in this view.
         """
-        # import pdb; pdb.set_trace()
         form = super(CreateAlbum, self).get_form()
         form.fields['pictures'].queryset = self.request.user.photo_set.all()
         return form
@@ -110,3 +117,45 @@ class CreateAlbum(CreateView):
         self.object.user_id = self.request.user.id
         self.object.save()
         return super(CreateAlbum, self).form_valid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+class EditAlbum(UpdateView):
+    model = Album
+    template_name_suffix = '_update_form'
+    fields = ['title', 'description', 'published', 'pictures', 'cover_photo']
+
+    def get_form(self, form_class=None):
+        """
+        Returns an instance of the form to be used in this view.
+        """
+        # import pdb; pdb.set_trace()
+        form = super(EditAlbum, self).get_form()
+        form.fields['pictures'].queryset = self.request.user.photo_set.all()
+        return form
+
+    def form_valid(self, form, *args, **kwargs):
+        """
+        If the form is valid, save the associated model.
+        """
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user.id
+        self.object.save()
+        return super(EditAlbum, self).form_valid(form)
+
+
+@method_decorator(login_required, name='dispatch')
+class EditPhoto(UpdateView):
+    model = Photo
+    template_name_suffix = '_update_form'
+    fields = ['title', 'description', 'published']
+
+    def form_valid(self, form, *args, **kwargs):
+        """
+        If the form is valid, save the associated model.
+        """
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user.id
+        self.object.save()
+        return super(EditPhoto, self).form_valid(form)
+

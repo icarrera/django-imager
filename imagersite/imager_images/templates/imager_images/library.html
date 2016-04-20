@@ -9,7 +9,18 @@ Hello! This is the library page!
     {% load thumbnail %}
     {% for album in user.albums.all %}
         {% thumbnail album.cover_photo.image "100x100" as img %}
-                <a href='/images/album/{{album.id}}'> <img src="{{ img.url }}"> </a>
+            <span>
+                <div>
+                    <a href='/images/album/{{album.id}}'> 
+                        <img src="{{ img.url }}"> 
+                    </a>
+                </div>
+                <div>
+                    <a href='/images/album/{{album.id}}/edit'>
+                        <button>Edit!</button>
+                    </a>
+                </div>
+            </span>
             {% empty %}
             <p> sorry! no image </p>
         {% endthumbnail %}
@@ -21,7 +32,17 @@ Hello! This is the library page!
     <li>
     {% for photo in user.photo_set.all %}
         {% thumbnail photo.image "100x100" as im %}
-                <a href='/images/photos/{{photo.id}}'> <img src="{{im.url}}" alt="{{photo.title}}"></a>
+            <span>
+                <div>
+                    <a href='/images/photos/{{photo.id}}'> <img src="{{im.url}}" alt="{{photo.title}}">
+                    </a>
+                </div>
+                <div>
+                    <a href='/images/photos/{{photo.id}}/edit'>
+                        <button>Edit!</button>
+                    </a> 
+                </div>
+            </span>
         {% endthumbnail %}
     {% endfor %}
     </li>
