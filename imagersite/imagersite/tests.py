@@ -142,6 +142,16 @@ class ViewsTest(TestCase):
         response = self.cl.get('/images/photos/' + str(photo_id))
         self.assertEqual(response.status_code, 200)
 
+    def test_photo_add_view_200(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        response = self.cl.get('/images/photos/add')
+        self.assertEqual(response.status_code, 200)
+
+        def test_album_add_view_200(self):
+            logged_in = self.cl.login(username='jaimie', password='stuff12345')
+            response = self.cl.get('/images/album/add')
+            self.assertEqual(response.status_code, 200)
+
     def test_photo_edit_view_200(self):
         logged_in = self.cl.login(username='jaimie', password='stuff12345')
         photo_id = self.image_1.id
