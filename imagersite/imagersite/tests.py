@@ -4,6 +4,7 @@ from django.test.client import RequestFactory
 from imager_profile.tests import UserFactory
 from imager_images.tests import PhotoFactory, AlbumFactory
 from django.contrib.auth.views import login
+from .views import CreatePhoto
 
 class ViewsTest(TestCase):
     def setUp(self):
@@ -38,6 +39,12 @@ class ViewsTest(TestCase):
             user=self.user_3,
             description="This is a sports photo.",
             published='public',
+        )
+        self.image_3 = PhotoFactory.build(
+            title = "image 3",
+            user=self.user_3,
+            description="test",
+            published='public'
         )
         self.album_1 = AlbumFactory.create(
             title='2016',
@@ -135,6 +142,18 @@ class ViewsTest(TestCase):
         response = self.cl.get('/images/photos/' + str(photo_id))
         self.assertEqual(response.status_code, 200)
 
+    def test_view_own_photo_edit_view(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        photo_id = self.image_1.id
+        response = self.cl.get('/images/photos/' + str(photo_id) + '/edit')
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_album_view_is_private(self):
+        logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        photo_id = self.image_1.id
+        import pdb; pdb.set_trace()
+        response = self.cl_3.get('/images/photos/' + str(photo_id) + '/edit')
+        self.assertEqual(response.status_code, 404)
 
 
 

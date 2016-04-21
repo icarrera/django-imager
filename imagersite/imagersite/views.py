@@ -10,7 +10,7 @@ from django.contrib.auth import login, logout
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import ModelFormMixin
 from django.core.exceptions import ValidationError
@@ -39,8 +39,6 @@ class ProfileForm(ModelForm):
 
 
 def edit_profile(request):
-    # current_user = User.objects.get(pk=request.user.id)
-    # current_profile = request.user.profile
     if request.method == 'POST':
         form_1 = UserForm(request.POST, instance=request.user)
         form_2 = ProfileForm(request.POST, instance=request.user.profile)
@@ -48,7 +46,6 @@ def edit_profile(request):
             form_1.is_valid()
             form_2.is_valid()
             form_2.user = request.user
-            # import pdb; pdb.set_trace()
             form_1.save()
             form_2.save()
             return HttpResponseRedirect('/profile')
@@ -58,11 +55,6 @@ def edit_profile(request):
         form_1 = UserForm(instance=request.user)
         form_2 = ProfileForm(instance=request.user.profile)
         return render(request, 'imager_profile/profile_update_form.html', context={'form_1': form_1, 'form_2': form_2})
-
-
-# self.object = form.save(commit=False)
-# self.object.user_id = self.request.user.id
-# self.object.save()
 
 
 @method_decorator(login_required, name='dispatch')
