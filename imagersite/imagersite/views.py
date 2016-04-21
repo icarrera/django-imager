@@ -159,10 +159,10 @@ class EditAlbum(UpdateView):
 
     def get(self, request, *args, **kwargs):
         try:
-            album = Album.objects.get(pk=kwargs['pk'])
+            album = Album.objects.get(pk=int(kwargs['pk']))
         except ObjectDoesNotExist:
             raise HttpResponseNotFound('<h1>Page not found.</h1>')
-        if request.user is not album.user:
+        if request.user != album.user:
             raise PermissionDenied
         else:
             return super(EditAlbum, self).get(request)
@@ -193,13 +193,13 @@ class EditPhoto(UpdateView):
 
     def get(self, request, *args, **kwargs):
         try:
-            photo = Photo.objects.get(pk=kwargs['pk'])
+            photo = Photo.objects.get(pk=int(kwargs['pk']))
         except ObjectDoesNotExist:
             raise HttpResponseNotFound('<h1>Page not found.</h1>')
-        if request.user is not photo.user:
+        if request.user != photo.user:
             raise PermissionDenied
         else:
-            return super(EditAlbum, self).get(request)
+            return super(EditPhoto, self).get(request)
 
     def form_valid(self, form, *args, **kwargs):
         """

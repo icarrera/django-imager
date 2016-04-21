@@ -41,7 +41,7 @@ class ViewsTest(TestCase):
             published='public',
         )
         self.image_3 = PhotoFactory.build(
-            title = "image 3",
+            title="image 3",
             user=self.user_3,
             description="test",
             published='public'
@@ -142,19 +142,51 @@ class ViewsTest(TestCase):
         response = self.cl.get('/images/photos/' + str(photo_id))
         self.assertEqual(response.status_code, 200)
 
-    def test_view_own_photo_edit_view(self):
+    def test_photo_edit_view_200(self):
         logged_in = self.cl.login(username='jaimie', password='stuff12345')
         photo_id = self.image_1.id
         response = self.cl.get('/images/photos/' + str(photo_id) + '/edit')
         self.assertEqual(response.status_code, 200)
 
-    def test_edit_photo_view_is_private(self):
+    def test_photo_edit_view_403(self):
         logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
         photo_id = self.image_1.id
         response = self.cl_3.get('/images/photos/' + str(photo_id) + '/edit')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
 
+    def test_album_edit_view_200(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        album_id = self.album_1.id
+        response = self.cl.get('/images/album/' + str(album_id) + '/edit')
+        self.assertEqual(response.status_code, 200)
 
+    def test_album_edit_view_403(self):
+        logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        album_id = self.album_1.id
+        response = self.cl_3.get('/images/album/' + str(album_id) + '/edit')
+        self.assertEqual(response.status_code, 403)
+
+    def test_album_edit(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        album_id = self.album_1.id
+        response = self.cl.post('/images/album/' + str(album_id) + '/edit', {
+                                'title': 'amazing',
+                                'description': 'this photo is amazing',
+                                'pictures': self.image_1.pk,
+                                'published': 'public',
+                                'cover_photo': self.image_1.pk
+                                })
+        self.assertEqual(response.status_code, 302)
+
+    def test_photo_edit(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        photo_id = self.image_1.id
+        response = self.cl.post('/images/photos/' + str(photo_id) + '/edit', {
+                                'title': 'cool shot',
+                                'description': 'this photo is amazing',
+                                'published': 'public',
+                                })
+        self.assertEqual(response.status_code, 302)
 
 class EmailTest(TestCase):
     def test_send_email(self):
