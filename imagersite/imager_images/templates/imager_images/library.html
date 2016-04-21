@@ -1,51 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
-Hello! This is the library page!
-<a href="/images/albums/add"><button>Create Album</button></a>
-<a href="/images/photos/add"><button>Create Photo</button></a>
-<p>Albums</p>
-<ul>
-    <li>
-    {% load thumbnail %}
-    {% for album in user.albums.all %}
-        {% thumbnail album.cover_photo.image "100x100" as img %}
-            <span>
-                <div>
-                    <a href='/images/album/{{album.id}}'> 
-                        <img src="{{ img.url }}"> 
-                    </a>
-                </div>
-                <div>
-                    <a href='/images/album/{{album.id}}/edit'>
-                        <button>Edit!</button>
-                    </a>
-                </div>
-            </span>
-            {% empty %}
-            <p> sorry! no image </p>
-        {% endthumbnail %}
-    {% endfor %}
-    </li>
-</ul>
-<p>Photos</p>
-<ul>
-    <li>
-    {% for photo in user.photo_set.all %}
-        {% thumbnail photo.image "100x100" as im %}
-            <span>
-                <div>
-                    <a href='/images/photos/{{photo.id}}'> <img src="{{im.url}}" alt="{{photo.title}}">
-                    </a>
-                </div>
-                <div>
-                    <a href='/images/photos/{{photo.id}}/edit'>
-                        <button>Edit!</button>
-                    </a> 
-                </div>
-            </span>
-        {% endthumbnail %}
-    {% endfor %}
-    </li>
-</ul>
-
+<div class='columns-12'>
+    <section class='title'>
+        <h1 class='title'>Hello! This is the library page!</h1>
+    </section>
+    <a href="/images/albums/add"><button class='five columns'>Create Album</button></a>
+    <a href="/images/photos/add"><button class='five columns offset-by-two columns'>Create Photo</button></a>
+    <p>Albums</p>
+    <ul>
+        <li>
+        {% load thumbnail %}
+        {% for album in user.albums.all %}
+            {% thumbnail album.cover_photo.image "100x100" as img %}
+                <span>
+                    <div>
+                        <a href='/images/album/{{album.id}}'> 
+                            <img src="{{ img.url }}"> 
+                        </a>
+                    </div>
+                    <div>
+                        <a href='/images/album/{{album.id}}/edit'>
+                            <button>Edit!</button>
+                        </a>
+                    </div>
+                </span>
+                {% empty %}
+                <p> sorry! no image </p>
+            {% endthumbnail %}
+        {% endfor %}
+        </li>
+    </ul>
+    <p>Photos</p>
+    <ul>
+        <li>
+        {% for photo in user.photo_set.all %}
+            {% thumbnail photo.image "100x100" as im %}
+                <span>
+                    <div>
+                        <a href='/images/photos/{{photo.id}}'> <img src="{{im.url}}" alt="{{photo.title}}">
+                        </a>
+                    </div>
+                    <div>
+                        <a href='/images/photos/{{photo.id}}/edit'>
+                            <button>Edit!</button>
+                        </a> 
+                    </div>
+                </span>
+            {% endthumbnail %}
+        {% endfor %}
+        </li>
+    </ul>
+</div>
 {% endblock %}

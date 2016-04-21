@@ -7,9 +7,9 @@
         <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
     </head>
     <body>
-        <header>
+        <header class="main_header">
            <h1>Imager Magic</h1>
-           <nav>
+           <nav class="nav_links">
                <ul>
                    <li>Welcome {{ request.user.username }} </li>
                    <li><a href="/"><button>Home</button></a></li>
@@ -19,6 +19,8 @@
                </ul>
            </nav>
        </header>
-        {% block content %} {% endblock %}
+        <div class='container'>
+          {% block content %} {% endblock %}
+        </div>
     </body>
 </html>

@@ -44,7 +44,9 @@ class ImagerProfile(models.Model):
     )
     camera_model = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=3,
-                                choices=US_REGIONS)
+                                choices=US_REGIONS,
+                                null=True,
+                                blank=True,)
     photography_type = models.CharField(
         max_length=255,
         choices=PHOTO_CATEGORY,
