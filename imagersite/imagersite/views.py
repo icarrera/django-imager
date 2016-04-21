@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
@@ -39,21 +39,30 @@ class ProfileForm(ModelForm):
 
 
 def edit_profile(request):
+    # current_user = User.objects.get(pk=request.user.id)
+    # current_profile = request.user.profile
     if request.method == 'POST':
-        form_1 = UserForm(request.POST)
-        form_2 = ProfileForm(request.POST)
+        form_1 = UserForm(request.POST, instance=request.user)
+        form_2 = ProfileForm(request.POST, instance=request.user.profile)
         try:
             form_1.is_valid()
             form_2.is_valid()
+            form_2.user = request.user
+            # import pdb; pdb.set_trace()
             form_1.save()
             form_2.save()
-        except:
-            ValidationError(_('FILL OUT MORE BETTER'), code='invalid')
+            return HttpResponseRedirect('/profile')
+        except ValidationError:
+            raise ValidationError
     if request.method == 'GET':
         form_1 = UserForm(instance=request.user)
         form_2 = ProfileForm(instance=request.user.profile)
         return render(request, 'imager_profile/profile_update_form.html', context={'form_1': form_1, 'form_2': form_2})
 
+
+# self.object = form.save(commit=False)
+# self.object.user_id = self.request.user.id
+# self.object.save()
 
 
 @method_decorator(login_required, name='dispatch')
@@ -102,14 +111,6 @@ class AlbumDetailView(DetailView):
 class ProfileView(TemplateView):
     model = ImagerProfile
     template_name = 'user_profile.html'
-
-# @method_decorator(login_required, name='dispatch')
-# class EditProfile(UpdateView):
-#     model = ImagerProfile
-#     template_name_suffix = '_update_form'
-#     slug_field = 'user_id'
-#     slug_url_kwarg = 'slug'
-#     fields = ['firstname', 'lastname', 'email', 'friends', 'region', 'camera_model', 'photography_type']
 
 
 @method_decorator(login_required, name='dispatch')
@@ -162,7 +163,6 @@ class EditAlbum(UpdateView):
         """
         Returns an instance of the form to be used in this view.
         """
-        # import pdb; pdb.set_trace()
         form = super(EditAlbum, self).get_form()
         form.fields['pictures'].queryset = self.request.user.photo_set.all()
         return form
