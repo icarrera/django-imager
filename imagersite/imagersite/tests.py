@@ -148,10 +148,9 @@ class ViewsTest(TestCase):
         response = self.cl.get('/images/photos/' + str(photo_id) + '/edit')
         self.assertEqual(response.status_code, 200)
 
-    def test_edit_album_view_is_private(self):
+    def test_edit_photo_view_is_private(self):
         logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
         photo_id = self.image_1.id
-        import pdb; pdb.set_trace()
         response = self.cl_3.get('/images/photos/' + str(photo_id) + '/edit')
         self.assertEqual(response.status_code, 404)
 

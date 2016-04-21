@@ -16,13 +16,18 @@ from django.views.generic.edit import ModelFormMixin
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django.contrib.auth.models import User
+import random
+import math
 
 
 def home_page(request):
     """Home page view."""
     try:
-        img = Photo.objects.filter(published='public')[-1]
-    except:
+        # import pdb; pdb.set_trace()
+        img = Photo.objects.filter(published='public').all()
+        num = random.random()
+        img = img[math.floor(len(img) * num)].image.url
+    except AssertionError:
         img = '/media/static/krampus.jpg'
     return render(request, 'home.html', context={'img': img})
 
@@ -127,6 +132,7 @@ class CreateAlbum(CreateView):
     template_name_suffix = '_create_form'
     fields = ['title', 'description', 'published', 'pictures', 'cover_photo']
 
+
     def get_form(self, form_class=None):
         """
         Returns an instance of the form to be used in this view.
@@ -151,6 +157,16 @@ class EditAlbum(UpdateView):
     template_name_suffix = '_update_form'
     fields = ['title', 'description', 'published', 'pictures', 'cover_photo']
 
+    def get(self, request, *args, **kwargs):
+        try:
+            album = Album.objects.get(pk=kwargs['pk'])
+        except ObjectDoesNotExist:
+            raise HttpResponseNotFound('<h1>Page not found.</h1>')
+        if request.user is not album.user:
+            raise PermissionDenied
+        else:
+            return super(EditAlbum, self).get(request)
+
     def get_form(self, form_class=None):
         """
         Returns an instance of the form to be used in this view.
@@ -174,6 +190,16 @@ class EditPhoto(UpdateView):
     model = Photo
     template_name_suffix = '_update_form'
     fields = ['title', 'description', 'published']
+
+    def get(self, request, *args, **kwargs):
+        try:
+            photo = Photo.objects.get(pk=kwargs['pk'])
+        except ObjectDoesNotExist:
+            raise HttpResponseNotFound('<h1>Page not found.</h1>')
+        if request.user is not photo.user:
+            raise PermissionDenied
+        else:
+            return super(EditAlbum, self).get(request)
 
     def form_valid(self, form, *args, **kwargs):
         """
