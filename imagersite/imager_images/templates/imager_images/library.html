@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-{% load thumbnail %}
 <div class='columns-12'>
     <section class="centered">
         <h1>My Albums and Images</h1>
@@ -8,6 +7,7 @@
     <a href="/images/albums/add"><button class='five columns'>Create Album</button></a>
     <a href="/images/photos/add"><button class='five columns offset-by-two columns'>Create Photo</button></a>
     <h3>Albums</h3>
+    {% load thumbnail %}
     <ul>
         <li>
         {% for album in user.albums.all %}

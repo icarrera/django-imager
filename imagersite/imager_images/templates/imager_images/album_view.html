@@ -7,7 +7,7 @@
         <li>
             {% for photo in album.pictures.all %}
             {% thumbnail photo.image "150x150" as im %}
-            {{ photo.title }}
+            <div>{{ photo.title }}</div>
             <a href="/images/photos/{{photo.id}}"><img src="{{ im.url }}"></a>
             {% empty %}
             <p> sorry! no image </p>
