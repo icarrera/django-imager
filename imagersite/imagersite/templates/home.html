@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
     <section class="twelve columns">
-    <h1>Welcome to Djangimager, the Djago-based Imaging Site!</h1>
-    <img src="{{ img }}" alt="Default Home Image">
+        <section class="centered">
+            <h1>Welcome to Djangimager!</h1>
+            <h3>A Django-based photo-sharing site.</h3>
+            <h4>Please login or register to begin.</h4>
+        </section>
+        <img src="{{ img }}" alt="Default Home Image">
+    </section>
 {% endblock %}
