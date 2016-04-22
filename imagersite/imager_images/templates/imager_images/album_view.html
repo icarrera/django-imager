@@ -2,15 +2,18 @@
 {% block content %}
 <div class='columns-12'>
     {% load thumbnail %}
-    {{ album.title }}
-    <li>
-    {% for photo in album.pictures.all %}
-        {% thumbnail photo.image "100x100" as im %}
-            <img src="{{ im.url }}">
+    Album Title: {{ album.title }}
+    <ul>
+        <li>
+            {% for photo in album.pictures.all %}
+            {% thumbnail photo.image "150x150" as im %}
+            {{ photo.title }}
+            <a href="/images/photos/{{photo.id}}"><img src="{{ im.url }}"></a>
             {% empty %}
             <p> sorry! no image </p>
             {% endthumbnail %}
-    {% endfor %}
-    </li>
+            {% endfor %}
+        </li>
+</ul>
 </div>
 {% endblock %}
