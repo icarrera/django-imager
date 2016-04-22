@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load thumbnail %}
 <div class='columns-12'>
-    <section class='title'>
-        <h1 class='title'>Hello! This is the library page!</h1>
+    <section class="centered">
+        <h1>My Albums and Images</h1>
     </section>
     <a href="/images/albums/add"><button class='five columns'>Create Album</button></a>
     <a href="/images/photos/add"><button class='five columns offset-by-two columns'>Create Photo</button></a>
-    <p>Albums</p>
+    <h3>Albums</h3>
     <ul>
         <li>
-        {% load thumbnail %}
         {% for album in user.albums.all %}
             {% thumbnail album.cover_photo.image "100x100" as img %}
                 <span>
+                    <div>Title: {{album.title}} </div>
+                    <div>Description: {{album.description}} </div>
+                    <div>Privacy Setting: {{album.published}} </div>
                     <div>
-                        <a href='/images/album/{{album.id}}'> 
-                            <img src="{{ img.url }}"> 
+                        <a href='/images/album/{{album.id}}'>
+                            <img src="{{ img.url }}">
                         </a>
                     </div>
                     <div>
@@ -30,12 +33,15 @@
         {% endfor %}
         </li>
     </ul>
-    <p>Photos</p>
+    <h3>Photos</h3>
     <ul>
         <li>
         {% for photo in user.photo_set.all %}
             {% thumbnail photo.image "100x100" as im %}
                 <span>
+                        <div>Title: {{photo.title}}</div>
+                        <div>Description: {{photo.description}} </div>
+                        <div>Privacy Setting: {{photo.published}} </div>
                     <div>
                         <a href='/images/photos/{{photo.id}}'> <img src="{{im.url}}" alt="{{photo.title}}">
                         </a>
@@ -43,7 +49,7 @@
                     <div>
                         <a href='/images/photos/{{photo.id}}/edit'>
                             <button>Edit!</button>
-                        </a> 
+                        </a>
                     </div>
                 </span>
             {% endthumbnail %}

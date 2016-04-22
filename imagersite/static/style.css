@@ -29,6 +29,11 @@
     font-size: 4em;
 }
 
-.class title {
+.centered {
     text-align: center;
+}
+
+
+ul {
+    list-style: none;
 }

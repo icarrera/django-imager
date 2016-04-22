@@ -96,6 +96,3 @@ class ExistingUserCase(TestCase):
         """Test that deleted user does not have a profile primary key."""
         self.user_1.delete()
         self.assertIsNone(self.user_1.profile.pk)
-
-
-        # use the set password method to hash your password

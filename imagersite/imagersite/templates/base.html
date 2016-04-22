@@ -10,13 +10,18 @@
         <header class="main_header">
            <h1>Imager Magic</h1>
            <nav class="nav_links">
+                   <div> <h2>Welcome {{ request.user.username }} </h2> </div>
                <ul>
-                   <li>Welcome {{ request.user.username }} </li>
                    <li><a href="/"><button>Home</button></a></li>
                    <li><a href="/accounts/login/"><button>Login</button></a></li>
                    <li><a href="/accounts/logout/"><button>Logout</button></a></li>
+                   {% if user.is_authenticated %}
                    <li><a href="/profile"><button>Profile</button></a></li>
                    <li><a href="/images/library"><button>Library</button></a></li>
+                   {% endif %}
+                   {% if not user.is_authenticated %}
+                   <li><a href="/accounts/register"><button>Register</button></a></li>
+                   {% endif %}
                </ul>
            </nav>
        </header>

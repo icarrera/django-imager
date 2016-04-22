@@ -2,17 +2,16 @@
 
 {% block content %}
 
-<a href="/profile/edit/{{ request.user.user_id }}">Edit Profile</a>
 
 <section id='user_details' class='12 columns'>
     <ul>
         <li>
-            username: {{request.user.username}}
+            Username: {{request.user.username}}
         </li>
         <li>
-            name: {{request.user.first_name}} {{request.user.last_name}}
+            Name: {{request.user.first_name}} {{request.user.last_name}}
         <li>
-            email: {{request.user.email}}
+            Email: {{request.user.email}}
         </li>
         <li>
             Region: {{request.user.profile.location}}
@@ -27,5 +26,6 @@
             <p> Total Photos: {{user.photo_set.count}} </p>
         </li>
     </ul>
+    <a href="/profile/edit/{{ request.user.user_id }}"><button>Edit Profile</button></a>
 </section>
 {% endblock %}
