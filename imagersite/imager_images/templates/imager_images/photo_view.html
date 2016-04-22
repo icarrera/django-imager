@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='columns-12'>
+    <section>
+        <div>{{photo.title}}</div>
+        <div><img src="/media/{{ photo.image }}"></div>
+        <div>{{photo.description}}</div>
+
+</div>
+{% endblock %}

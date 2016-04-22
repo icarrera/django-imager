@@ -42,16 +42,21 @@ class ImagerProfile(models.Model):
         related_name="profile",
         on_delete=models.CASCADE,
     )
-    camera_model = models.CharField(max_length=255)
+    camera_model = models.CharField(max_length=255, null=True, blank=True)
     location = models.CharField(max_length=3,
-                                choices=US_REGIONS)
+                                choices=US_REGIONS,
+                                null=True,
+                                blank=True,)
     photography_type = models.CharField(
         max_length=255,
         choices=PHOTO_CATEGORY,
+        null=True,
+        blank=True,
     )
     friends = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name='friend_of',
+        blank=True,
     )
     active = ActiveUserManager()
     objects = models.Manager()

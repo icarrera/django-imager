@@ -54,7 +54,7 @@ class Album(models.Model):
         default=None
     )
     title = models.CharField(max_length=255, blank=True)
-    pictures = models.ManyToManyField(Photo, related_name='photos')
+    pictures = models.ManyToManyField(Photo, related_name='photos', blank=True)
     description = models.TextField(blank=True)
     date_uploaded = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

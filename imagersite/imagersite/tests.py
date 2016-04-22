@@ -4,6 +4,7 @@ from django.test.client import RequestFactory
 from imager_profile.tests import UserFactory
 from imager_images.tests import PhotoFactory, AlbumFactory
 from django.contrib.auth.views import login
+from .views import CreatePhoto
 
 class ViewsTest(TestCase):
     def setUp(self):
@@ -38,6 +39,12 @@ class ViewsTest(TestCase):
             user=self.user_3,
             description="This is a sports photo.",
             published='public',
+        )
+        self.image_3 = PhotoFactory.build(
+            title="image 3",
+            user=self.user_3,
+            description="test",
+            published='public'
         )
         self.album_1 = AlbumFactory.create(
             title='2016',
@@ -135,8 +142,61 @@ class ViewsTest(TestCase):
         response = self.cl.get('/images/photos/' + str(photo_id))
         self.assertEqual(response.status_code, 200)
 
+    def test_photo_add_view_200(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        response = self.cl.get('/images/photos/add')
+        self.assertEqual(response.status_code, 200)
 
+        def test_album_add_view_200(self):
+            logged_in = self.cl.login(username='jaimie', password='stuff12345')
+            response = self.cl.get('/images/album/add')
+            self.assertEqual(response.status_code, 200)
 
+    def test_photo_edit_view_200(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        photo_id = self.image_1.id
+        response = self.cl.get('/images/photos/' + str(photo_id) + '/edit')
+        self.assertEqual(response.status_code, 200)
+
+    def test_photo_edit_view_403(self):
+        logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        photo_id = self.image_1.id
+        response = self.cl_3.get('/images/photos/' + str(photo_id) + '/edit')
+        self.assertEqual(response.status_code, 403)
+
+    def test_album_edit_view_200(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        album_id = self.album_1.id
+        response = self.cl.get('/images/album/' + str(album_id) + '/edit')
+        self.assertEqual(response.status_code, 200)
+
+    def test_album_edit_view_403(self):
+        logged_in = self.cl_3.login(username='hacker', password='iwilltrytohackyou')
+        album_id = self.album_1.id
+        response = self.cl_3.get('/images/album/' + str(album_id) + '/edit')
+        self.assertEqual(response.status_code, 403)
+
+    def test_album_edit(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        album_id = self.album_1.id
+        response = self.cl.post('/images/album/' + str(album_id) + '/edit', {
+                                'title': 'amazing',
+                                'description': 'this photo is amazing',
+                                'pictures': self.image_1.pk,
+                                'published': 'public',
+                                'cover_photo': self.image_1.pk
+                                })
+        self.assertEqual(response.status_code, 302)
+
+    def test_photo_edit(self):
+        logged_in = self.cl.login(username='jaimie', password='stuff12345')
+        photo_id = self.image_1.id
+        response = self.cl.post('/images/photos/' + str(photo_id) + '/edit', {
+                                'title': 'cool shot',
+                                'description': 'this photo is amazing',
+                                'published': 'public',
+                                })
+        self.assertEqual(response.status_code, 302)
 
 class EmailTest(TestCase):
     def test_send_email(self):

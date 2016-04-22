@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>HELLO WORLD!</h1>
-    <p>Welcome to our Imager Site!</p>
-    <img src="{{ img }}" alt="Default Home Image">
+    <section class="twelve columns">
+        <section class="centered">
+            <h2>Welcome to Krampusimager!</h2>
+            <h3>A Django-based photo-sharing site.</h3>
+            <h4>Please login or register to begin.</h4>
+        </section>
+        <div class="home_image">
+        <img src="{{ img }}" alt="Default Home Image">
+        </div>
+    </section>
 {% endblock %}
