@@ -23,7 +23,7 @@ export SECRET_KEY=''
 
 - Create a Postgres database
 
-- Pip install -r requirements.txt
+- Pip install -r requirements.txt . Linux users should remove "gnureadline==6.3.3" from this file as only applicable for Mac systems.
 
 - Make migrations
 
