@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 from django.conf import settings
 from django.conf.urls.static import static
-from django.core.cache.backends.memcached import MemcachedCache
-# from .urls import urlpatterns
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -30,8 +28,6 @@ MEDIA_URL = '/media/'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-# SECRET_KEY = '!j^m_tbb8syiq%gv@-s2v5ylwh7s(ouda1*tir*dm(3g0sysm('
-# SECRET_KEY = 'as;fas;df;jafbfjioajgiopfjpiagaufwe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 THUMBNAIL_DEBUG = True
@@ -130,17 +126,6 @@ CACHES = {
     'LOCATION': 'cache_table',
     }
 }
-#Our attempt to implement memcached:
-# def make_key(key, key_prefix, version):
-#     return bytes(':'.join(key_prefix, str(version), key))
-
-# CACHES = {
-#     'default': {
-#     'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-#     'LOCATION': '127.0.0.1:11211',
-#     'KEY_FUNCTION': 'imagersite.settings.py:make_key'
-#     }
-# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
