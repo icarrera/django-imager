@@ -30,13 +30,21 @@ MEDIA_URL = '/media/'
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-THUMBNAIL_DEBUG = True
-DEBUG = True
+THUMBNAIL_DEBUG = False
+DEBUG = False
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
     EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'emails')
 
-ALLOWED_HOSTS = []
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
+SERVER_EMAIL = os.environ.get('EMAIL')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+ADMINS = [('patrick', os.environ,get('PEMAIL'), ('iris', os.environ.get('IEMAIL')]
+
+ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
+                 'localhost'
+                 ]
 
 LOGIN_REDIRECT_URL = '/profile'
 LOGOUT_REDIRECT_URL = '/'
