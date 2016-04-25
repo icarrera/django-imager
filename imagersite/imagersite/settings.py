@@ -163,9 +163,10 @@ ACCOUNT_ACTIVATION_DAYS = 30
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    './static'
+    os.path.join(BASE_DIR, 'static')
 ]
-STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+STATIC_DIRECTORY = 'static'
+# STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
 
 # for viewing images in debug mode:
 # if settings.DEBUG:
