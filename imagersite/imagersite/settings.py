@@ -32,12 +32,16 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 THUMBNAIL_DEBUG = False
 DEBUG = False
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'emails')
 
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
-SERVER_EMAIL = os.environ.get('EMAIL')
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('IMAGER_EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_PORT = 587
+
+
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 ADMINS = [('patrick', os.environ.get('PEMAIL')),
