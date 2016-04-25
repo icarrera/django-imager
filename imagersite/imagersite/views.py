@@ -27,7 +27,7 @@ def home_page(request):
         img = Photo.objects.filter(published='public').all()
         num = random.random()
         img = img[math.floor(len(img) * num)].image.url
-    except IndexError, TypeError:
+    except (IndexError, TypeError):
         img = '/media/static/krampus.jpg'
     return render(request, 'home.html', context={'img': img})
 
