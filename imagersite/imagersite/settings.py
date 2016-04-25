@@ -42,8 +42,8 @@ DEFAULT_FROM_EMAIL = os.environ.get('IMAGER_EMAIL_HOST_USER')
 EMAIL_PORT = 587
 
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 ADMINS = [('patrick', os.environ.get('PEMAIL')),
           ('iris', os.environ.get('IEMAIL'))]
 
