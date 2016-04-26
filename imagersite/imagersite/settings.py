@@ -32,15 +32,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 THUMBNAIL_DEBUG = False
 DEBUG = False
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'tmp', 'emails')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('IMAGER_EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_PORT = 587
 
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
-SERVER_EMAIL = os.environ.get('EMAIL')
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-ADMINS = [('patrick', os.environ.get('PEMAIL'), ('iris', os.environ.get('IEMAIL'))]
+ADMINS = [('patrick', os.environ.get('PEMAIL')), ('iris', os.environ.get('IEMAIL'))]
 
 ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
                  'localhost'
@@ -158,7 +158,7 @@ ACCOUNT_ACTIVATION_DAYS = 30
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    './static'
+    os.path.join(BASE_DIR, 'static')
 ]
 STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
 
