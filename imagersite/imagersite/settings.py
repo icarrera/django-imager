@@ -40,7 +40,7 @@ DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
 SERVER_EMAIL = os.environ.get('EMAIL')
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-ADMINS = [('patrick', os.environ.get('PEMAIL'), ('iris', os.environ.get('IEMAIL')]
+ADMINS = [('patrick', os.environ.get('PEMAIL'), ('iris', os.environ.get('IEMAIL'))]
 
 ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
                  'localhost'
