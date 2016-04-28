@@ -158,7 +158,7 @@ ACCOUNT_ACTIVATION_DAYS = 30
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'imagersite', 'static')
 ]
 STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
 
