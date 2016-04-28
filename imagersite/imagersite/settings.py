@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Media file handling
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -32,7 +32,6 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 THUMBNAIL_DEBUG = False
 DEBUG = False
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -41,11 +40,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('IMAGER_EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.environ.get('IMAGER_EMAIL_HOST_USER')
 EMAIL_PORT = 587
 
-
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
-ADMINS = [('patrick', os.environ.get('PEMAIL')),
-          ('iris', os.environ.get('IEMAIL'))]
+ADMINS = [('patrick', os.environ.get('PEMAIL')), ('iris', os.environ.get('IEMAIL'))]
 
 ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
                  'localhost'
@@ -165,8 +160,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-STATIC_DIRECTORY = 'static'
-# STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
 
 # for viewing images in debug mode:
 # if settings.DEBUG:
