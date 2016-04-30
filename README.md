@@ -5,6 +5,10 @@ Once registered and logged-in, users can upload photos and albums.
 Users can set their photo and album publication settings to public, shared, or private.
 Users can share with photos or albums with persons they are "friends" with if photos or albums are set to "shared".
 
+### API functionality
+Once a user provides their credentials, they can go to the /api/v1/ route to acquire photos that they've uploaded to our app.
+
+
 ### Setup
 - Create an env.sh file and git ignore it. Add this information:
 
