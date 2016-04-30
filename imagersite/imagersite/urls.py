@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^images/library/$', login_required(TemplateView.as_view(template_name='imager_images/library.html'))),
     url(r'^profile$', login_required(TemplateView.as_view(template_name='imager_profile/user_profile.html'))),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
+    url(r'^api/', include('imager_api.urls')),
 ]
 
 if settings.DEBUG:

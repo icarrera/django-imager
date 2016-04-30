@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 THUMBNAIL_DEBUG = False
-DEBUG = False
+DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'imager_profile',
     'imager_images',
     'sorl.thumbnail',
+    'rest_framework',
+    'imager_api.apps.ImagerApiConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -161,6 +163,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'imagersite', 'static')
 ]
 STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 10
+}
 
 # for viewing images in debug mode:
 # if settings.DEBUG:
