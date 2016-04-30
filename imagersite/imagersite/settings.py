@@ -11,22 +11,43 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# Media file handling
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '!j^m_tbb8syiq%gv@-s2v5ylwh7s(ouda1*tir*dm(3g0sysm('
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+THUMBNAIL_DEBUG = False
 DEBUG = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('IMAGER_EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.environ.get('IMAGER_EMAIL_HOST_USER')
+EMAIL_PORT = 587
 
-ALLOWED_HOSTS = []
+ADMINS = [('patrick', os.environ.get('PEMAIL')), ('iris', os.environ.get('IEMAIL'))]
 
+ALLOWED_HOSTS = ['.us-west-2.compute.amazonaws.com',
+                 'localhost'
+                 ]
+
+LOGIN_REDIRECT_URL = '/profile'
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -38,7 +59,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'imager_profile',
-    'imager_images'
+    'imager_images',
+    'sorl.thumbnail',
+    'rest_framework',
+    'imager_api.apps.ImagerApiConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -57,7 +81,7 @@ ROOT_URLCONF = 'imagersite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'imagersite', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,10 +103,11 @@ WSGI_APPLICATION = 'imagersite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'imager',
-        'USER': 'roboiris',
-        'PASSWORD': 'secret',
-        'HOST': '127.0.0.1',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
 
@@ -105,6 +130,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CACHES = {
+    'default': {
+    'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+    'LOCATION': 'cache_table',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
@@ -119,11 +150,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+ACCOUNT_ACTIVATION_DAYS = 30
+
+
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'imagersite', 'static')
+]
+STATIC_ROOT =  os.path.join(BASE_DIR, 'static')
+
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 10
+}
 
 # for viewing images in debug mode:
 # if settings.DEBUG:

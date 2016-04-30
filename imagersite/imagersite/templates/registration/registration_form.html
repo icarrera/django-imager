@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <div class="twelve columns">
+        <form method="POST" action="/accounts/register/" id="registration form">
+            {% csrf_token %}
+        <ul>
+            {{ form }}
+        </ul>
+            <input type = 'submit' />
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% for photo in album.photos %}
+<div class='columns-12'>
+    <img src="/media/{% photo.image %}">
+</div>
+{% endfor %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<section id='user_details' class='12 columns'>
+    <ul>
+        <li>
+            Username: {{request.user.username}}
+        </li>
+        <li>
+            Name: {{request.user.first_name}} {{request.user.last_name}}
+        <li>
+            Email: {{request.user.email}}
+        </li>
+        <li>
+            Region: {{request.user.profile.location}}
+        </li>
+        <li>
+            Photography Type: {{request.user.profile.photography_type}}
+        </li>
+        <li>
+            <p>Total Albums: {{ user.albums.count }}</p>
+        </li>
+        <li>
+            <p> Total Photos: {{user.photo_set.count}} </p>
+        </li>
+    </ul>
+    <a href="/profile/edit/{{ request.user.user_id }}"><button>Edit Profile</button></a>
+</section>
+{% endblock %}

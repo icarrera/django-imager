@@ -1,0 +1,43 @@
+* {
+    color: #234663;
+}
+
+.nav_links {
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding: 1%;
+}
+
+.nav_links li {
+    display: inline;
+    padding: 3%;
+    text-decoration: none;
+    font-size: 2em;
+}
+
+.nav_links ul {
+    text-align: center;
+}
+
+.main_header {
+    text-align: center;
+    padding: 3%;
+}
+
+.main_header h1 {
+    font-weight: bold;
+    font-size: 4em;
+}
+
+.centered {
+    text-align: center;
+}
+
+.home_image img {
+    margin-left: 25%;
+    max-width: 50%;
+}
+
+ul {
+    list-style: none;
+}
